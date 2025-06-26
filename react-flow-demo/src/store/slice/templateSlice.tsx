@@ -1,21 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { TemplatesModel } from "../../data/TemplateModel";
 
-interface TaskModel {
-    name: string,
-    date: Date,
-}
-
-interface TemplateModel {
-    name: string,
-    date: Date,
-    taskList: TaskModel[],
-}
-
-interface TemplatesModel {
-    templates: {[name: string]: TemplateModel}
-}
-
-const templateInitState: TemplatesModel = {
+export const templateInitState: TemplatesModel = {
     templates: {
         template_0: {
             name: "template_0",

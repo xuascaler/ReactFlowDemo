@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+.custom-input:hover {
+  background-color: #f0f0f0;
+}
+
+.scroll-box::-webkit-scrollbar {
+  height: 8px;
+  width: 5px;
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+/* Firefox */
+.scroll-box {
+  scrollbar-width: thin;              /* 可为 auto, thin, none */
+  scrollbar-color: rgba(0,0,0,0.3) transparent;
+}
+
+.ulx::-webkit-scrollbar-button {
+  display: none; /* 不显示箭头按钮（大多数浏览器已默认不显示） */
+}
