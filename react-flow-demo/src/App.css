@@ -60,3 +60,13 @@
 .ulx::-webkit-scrollbar-button {
   display: none; /* 不显示箭头按钮（大多数浏览器已默认不显示） */
 }
+
+.hide-scrollbar {
+  overflow: auto;
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE 10+ */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
+}

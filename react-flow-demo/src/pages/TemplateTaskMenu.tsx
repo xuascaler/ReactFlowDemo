@@ -5,27 +5,39 @@ import { TemplatesModel } from '../data/TemplateModel';
 import { TemplateModel } from '../data/TemplateModel';
 import { TaskModel } from '../data/TemplateModel';
 
+import "../App.css"
+
 interface TaskEleInf {
   task: TaskModel
 }
 
 const TaskEle: React.FC<TaskEleInf> = ({ task }) => {
+
+  const linkRef = useRef<HTMLAnchorElement>(null);
+
+  const handleBlur = () => {
+    const el = linkRef.current;
+    if (el) {
+      el.scrollLeft = 0; // 水平滚动回开头（可选）
+    }
+  };
   return (
-    <li>
-      <input 
+    <li className='m-0'>
+
+      <a className="hide-scrollbar" 
+      ref={linkRef}
+      onBlur={handleBlur}
+      style={{
+    display: 'inline-block',
+    overflow: 'auto',          // 不显示滚动条
+    userSelect: 'text',          // 可选中
+    cursor: 'text',              // 类似 <input> 的文本选择样式
+      }}>{task.name + "xxxxxxxxxxxxxxxxx"}</a>
+      {/* <input 
         readOnly 
-        className="custom-input p-1 m-1 is-size-7 has-text-weight-medium "
-        onFocus={(e) => {
-          e.currentTarget.style.outline = 'none';
-          e.currentTarget.style.boxShadow = 'none';
-        }}
-        style={{
-          fontWeight: 'bold',
-          border: 'none',
-          boxShadow: 'none'
-          }} 
+        className="input is-rounded is-static"
         value={task.name}
-      />
+      /> */}
     </li>
   )
 }
@@ -36,57 +48,67 @@ interface TemplateEleInf {
 
 const TemplateEle: React.FC<TemplateEleInf> = ({ template }) => {
   const [ expand, setExpand ] = useState(false)
-  const textRef = useRef(template.name);
-  textRef.current = template.name
 
   const onClick = () => {
-    setExpand(!expand)
+        const selection = window.getSelection();
+        const selectedText = selection?.toString().trim();
+
+    if (!selectedText) {
+      setExpand(!expand)
+    }
   }
 
+  const linkRef = useRef<HTMLAnchorElement>(null);
+
+  const handleBlur = () => {
+    const el = linkRef.current;
+    if (el) {
+      el.scrollLeft = 0; // 水平滚动回开头（可选）
+    }
+  };
+
   return (
-    <li>
-      <input 
-        readOnly
-        onClick={onClick}
-        className="custom-input p-1 m-1 is-size-7 has-text-weight-medium"
-        onFocus={(e) => {
-          e.currentTarget.style.outline = 'none';
-          e.currentTarget.style.boxShadow = 'none';
-        }}
-        style={{
-          fontWeight: 'bold', border: 'none', boxShadow: 'none'
-        }}
-        value={textRef.current}
-      />
-      {/* <ul>
-        {
-          expand && template.taskList.map(
-            (item, i) => (<TaskEle task={item}/>)
-          )
-        }
-      </ul> */}
+    <li >
+      <a onClick={onClick} className="hide-scrollbar" 
+              ref={linkRef}
+              onBlur={handleBlur}
+      style={{
+    display: 'inline-block',
+    overflow: 'auto',          // 不显示滚动条
+    userSelect: 'text',          // 可选中
+    cursor: 'text',              // 类似 <input> 的文本选择样式
+  }}><strong>{template.name}</strong></a>
+      {
+        expand &&
+        <ul>
+          { 
+            template.taskList.map(
+              (item, i) => (<TaskEle task={item}/>)
+            )
+          }
+        </ul>
+      }
     </li>
   )
 }
 
 interface TemplateInf {
-  templateDict: TemplatesModel
+  templatesInfo: TemplatesModel
 }
 
-const TemplateTaskMenu: React.FC<TemplateInf> = ({ templateDict }) => {
-  const templates = Object.entries(templateDict).sort(
+const TemplateTaskMenu: React.FC<TemplateInf> = ({ templatesInfo }) => {
+  const templates = Object.entries(templatesInfo.templates).sort(
     (a, b) => new Date(b[1].date).getTime() - new Date(a[1].date).getTime()
   );
     return (
-      <div>
-        <p className="menu-label"><strong className="has-text-danger-dark">TEMPLATES AND TASKS</strong></p>
-        <ul className="menu-list scroll-box ulx" style={{overflowY: "auto", overflowX: "hidden", maxHeight: '500px'}}>
-          {/* {
+      <div className='has-text-black'>
+        <p className="menu-label"><strong>TEMPLATES AND TASKS</strong></p>
+        <ul className="menu-list scroll-box" style={{overflowY: "auto", overflowX: "hidden", maxHeight: '500px'}}>
+          {
             templates.map(
               (item, i) => (<TemplateEle template={item[1]}/>)
             )
-          } */}
-          <TemplateEle template={templates[0][1]}/>
+          }
         </ul>
       </div>
     )
