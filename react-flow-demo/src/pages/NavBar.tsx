@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 function NavBar() {
   return (
-    <nav className="navbar" role="navigation" aria-label="main navigation">
+    <nav className="navbar is-black" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <div className="navbar-item">
           <svg height="149" width="625" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 190.80200000000002">

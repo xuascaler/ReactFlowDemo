@@ -1,5 +1,5 @@
 import { Routes, Route, Link } from 'react-router-dom'
-import Home from './Home'
+import Home from './pages/Home'
 import Cluster from './Cluster'
 import NewNode from './NewNode'
 
