@@ -5,7 +5,7 @@ import { TemplatesModel } from '../data/TemplateModel';
 import { TemplateModel } from '../data/TemplateModel';
 import { TaskModel } from '../data/TemplateModel';
 
-import "../App.css"
+import "./TemplateTaskMenu.css"
 
 interface TaskEleInf {
   task: TaskModel
@@ -13,31 +13,44 @@ interface TaskEleInf {
 
 const TaskEle: React.FC<TaskEleInf> = ({ task }) => {
 
-  const linkRef = useRef<HTMLAnchorElement>(null);
+  const linkRef = useRef<HTMLDivElement>(null);
 
   const handleBlur = () => {
-    const el = linkRef.current;
-    if (el) {
-      el.scrollLeft = 0; // 水平滚动回开头（可选）
+    const e = linkRef.current;
+    if (e) {
+      e.scrollLeft = 0;
     }
   };
+
+  const onClick = () => {
+        const selection = window.getSelection();
+        const selectedText = selection?.toString().trim();
+
+    if (selectedText) {
+      const el = linkRef.current;
+      if (el) {
+        el.scrollLeft = 0;
+      }
+    }
+  }
+
   return (
     <li className='m-0'>
-
-      <a className="hide-scrollbar" 
-      ref={linkRef}
-      onBlur={handleBlur}
-      style={{
-    display: 'inline-block',
-    overflow: 'auto',          // 不显示滚动条
-    userSelect: 'text',          // 可选中
-    cursor: 'text',              // 类似 <input> 的文本选择样式
-      }}>{task.name + "xxxxxxxxxxxxxxxxx"}</a>
-      {/* <input 
-        readOnly 
-        className="input is-rounded is-static"
-        value={task.name}
-      /> */}
+      <div 
+        tabIndex={0}
+        ref={linkRef}
+        onBlur={handleBlur} 
+        onClick={onClick}
+        className="line-div hide-scrollbar" 
+        style={{
+          // width: "100%",
+          // display: 'inline-block',
+          overflow: 'scroll',
+          // whiteSpace: 'nowrap',
+          // userSelect: 'text',
+          // cursor: 'text',
+      }}
+      ><div   style={{}}>{task.name}</div></div>
     </li>
   )
 }
@@ -56,28 +69,42 @@ const TemplateEle: React.FC<TemplateEleInf> = ({ template }) => {
     if (!selectedText) {
       setExpand(!expand)
     }
+    else {
+      const el = linkRef.current;
+      if (el) {
+        el.scrollLeft = 0;
+      }
+    }
   }
 
-  const linkRef = useRef<HTMLAnchorElement>(null);
+  const linkRef = useRef<HTMLDivElement>(null);
 
   const handleBlur = () => {
     const el = linkRef.current;
     if (el) {
-      el.scrollLeft = 0; // 水平滚动回开头（可选）
+      el.scrollLeft = 0;
     }
   };
 
+
   return (
     <li >
-      <a onClick={onClick} className="hide-scrollbar" 
+      <div 
+        tabIndex={0}
+      onClick={onClick} 
               ref={linkRef}
               onBlur={handleBlur}
-      style={{
-    display: 'inline-block',
-    overflow: 'auto',          // 不显示滚动条
-    userSelect: 'text',          // 可选中
-    cursor: 'text',              // 类似 <input> 的文本选择样式
-  }}><strong>{template.name}</strong></a>
+      className="hide-scrollbar line-div" 
+        style={{
+          // width: "100%",
+          // display: 'inline-block',
+          overflow: 'scroll',
+          // whiteSpace: 'nowrap',
+          // userSelect: 'text',
+          // cursor: 'text',
+      }}
+  >
+    <strong>{template.name}</strong></div>
       {
         expand &&
         <ul>
@@ -101,7 +128,7 @@ const TemplateTaskMenu: React.FC<TemplateInf> = ({ templatesInfo }) => {
     (a, b) => new Date(b[1].date).getTime() - new Date(a[1].date).getTime()
   );
     return (
-      <div className='has-text-black'>
+      <div>
         <p className="menu-label"><strong>TEMPLATES AND TASKS</strong></p>
         <ul className="menu-list scroll-box" style={{overflowY: "auto", overflowX: "hidden", maxHeight: '500px'}}>
           {
